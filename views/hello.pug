@@ -1,0 +1,6 @@
+extends layout
+
+block content
+  h1 Welcome to #{h.siteName}
+  h2 Sale ends in #{h.moment().endOf('Day').fromNow()}
+  
