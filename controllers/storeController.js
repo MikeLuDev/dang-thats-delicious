@@ -1,11 +1,13 @@
-exports.myMiddleware = (req, res, next) => {
-  req.name = 'Michael';
-  if (req.name == 'Michael') {
-    throw Error('that is a stupid name');
-  }
-  next();
-}
 exports.homePage = (req, res) => {
   console.log(req.name);
-  res.render('index');
+  res.render('index')
+}
+
+exports.addStore = (req, res) => {
+  res.render('editStore', { title: 'Add Store' });
+}
+
+exports.createStore = (req, res) => {
+  console.log(req.body);
+  res.json(req.body);
 }
