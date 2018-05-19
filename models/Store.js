@@ -26,4 +26,5 @@ storeSchema.pre('save', function (next) {
   // TODO: make more resilliant so slugs are unique
 });
 
+// Set 'storeSchema' as a model named 'Store'
 module.exports = mongoose.model('Store', storeSchema);
