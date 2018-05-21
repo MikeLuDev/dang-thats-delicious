@@ -7,17 +7,23 @@ const Store = mongoose.model('Store');
 
 // Render home page
 exports.homePage = (req, res) => {
-  res.render('index')
-}
+  res.render('index');
+};
 
 // Render edit store page
 exports.addStore = (req, res) => {
   res.render('editStore', { title: 'Add Store' });
-}
+};
 
 // Save new store to DB
 exports.createStore = async (req, res) => {
-  const store = new Store(req.body);
-  await store.save();
-  res.redirect('/');
-}
+  const store = await new Store(req.body).save();
+  req.flash('succes', `Successfully created ${store.name}. Care to leave a review?`);
+  res.redirect(`/store/${store.slug}`);
+};
+
+exports.getStores = async (req, res) => {
+  // Query db for a list of all stores
+  const stores = await Store.find();
+  res.render('stores', { title: 'Stores', stores });
+};
