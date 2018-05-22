@@ -1,5 +1,21 @@
-// Import mongoose
+// Import packages
 const mongoose = require('mongoose');
+const multer = require('multer');
+const jimp = require('jimp');
+const uuid = require('uuid');
+
+// Multer options
+const multerOptions = {
+  storage: multer.memoryStorage(),
+  fileFilter(req, file, next) {
+    const isPhoto = file.mimetype.startsWith('image/');
+    if (isPhoto) {
+      next(null, true);
+    } else {
+      next({ message: `That file type isn't allowed.` }, false);
+    }
+  },
+};
 
 // We're able to import the Store model here because it has been imported already in start.js
 // And Mongoose is a singleton
@@ -13,6 +29,22 @@ exports.homePage = (req, res) => {
 // Render edit store page
 exports.addStore = (req, res) => {
   res.render('editStore', { title: 'Add Store' });
+};
+
+exports.upload = multer(multerOptions).single('photo');
+
+exports.resize = async (req, res, next) => {
+  // Check if there is no new file to resize
+  if (!req.file) {
+    next(); // Skip to next middleware
+    return;
+  }
+  const extension = req.file.mimetype.split('/')[1]; // Get extension
+  req.body.photo = `${uuid.v4()}.${extension}`; // Name photo for DB and write to req.body
+  const photo = await jimp.read(req.file.buffer); // Read the file buffer for photo info
+  await photo.resize(800, jimp.AUTO); // Resize photo
+  await photo.write(`./public/uploads/${req.body.photo}`); // Write photo to directory
+  next();
 };
 
 // Save new store to DB
