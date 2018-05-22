@@ -17,8 +17,6 @@ mixin storeForm(store = {})
     label(for="lat") Address Latitude
     input(type="text" id="lat" name="location[coordinates][1]" value=(store.location && store.location.coordinates[1]))
 
-    pre= h.dump(store)
-
     //- Tags input
     //- Init tag choices, get either stored tags or default to []
     //- Then, loop through choices and for each of them make a div containing a checkbox
