@@ -1,5 +1,7 @@
 mixin storeForm(store = {})
-  form(action=`/add/${store._id || ''}` method="POST" class="card")
+  form(action=`/add/${store._id || ''}` method="POST" class="card" enctype="multipart/form-data")
+
+    pre= h.dump(store)
 
     //- Name input
     label(for="name") Name
@@ -8,6 +10,12 @@ mixin storeForm(store = {})
     //- Description input
     label(for="description") Description
     textarea(name="description" placeholder="Describe the experience!")= store.description
+
+    //- Image upload
+    label(for="photo") Photo
+      input(type="file" name="photo" id="photo" accept="image/gif, image/jpg, image/png")
+      if store.photo
+        img(src=`/uploads/${store.photo}`, alt=store.name width=200)
 
     //- Address, longitude, and latitude input
     label(for="address") Address
