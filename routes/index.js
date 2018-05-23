@@ -11,6 +11,8 @@ router.get('/add', storeController.addStore);
 router.get('/stores', catchErrors(storeController.getStores));
 router.get('/stores/:slug', catchErrors(storeController.getStoreBySlug));
 router.get('/stores/:id/edit', catchErrors(storeController.editStore));
+router.get('/tags', catchErrors(storeController.getStoreByTag));
+router.get('/tags/:tag', catchErrors(storeController.getStoreByTag));
 
 router.post(
   '/add',
