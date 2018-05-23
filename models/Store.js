@@ -62,5 +62,17 @@ storeSchema.pre('save', async function (next) {
 
 });
 
+// Static method for getting all tags in schema
+storeSchema.statics.getTagsList = function () {
+  return this.aggregate([
+    // Unwind schema by tags
+    { $unwind: '$tags' },
+    // Group tags with fields _id and count
+    // Id is each unique tag name, count is the number of times each tag is recorded times a multiplier of 1
+    { $group: { _id: '$tags', count: { $sum: 1 } } },
+    { $sort: { count: -1 } }
+  ]);
+}
+
 // Set 'storeSchema' as a model named 'Store'
 module.exports = mongoose.model('Store', storeSchema);
