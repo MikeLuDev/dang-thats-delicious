@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const storeController = require('../controllers/storeController');
+const userController = require('../controllers/userController');
 
 // Import higher order catch error function to wrap our routes in
 const { catchErrors } = require('../handlers/errorHandlers');
@@ -13,6 +14,8 @@ router.get('/stores/:slug', catchErrors(storeController.getStoreBySlug));
 router.get('/stores/:id/edit', catchErrors(storeController.editStore));
 router.get('/tags', catchErrors(storeController.getStoreByTag));
 router.get('/tags/:tag', catchErrors(storeController.getStoreByTag));
+router.get('/login', userController.loginForm);
+router.get('/register', userController.registerForm);
 
 router.post(
   '/add',
@@ -27,5 +30,8 @@ router.post(
   catchErrors(storeController.resize),
   catchErrors(storeController.updateStore),
 );
+
+router.post('/register', userController.validateRegister);
+router.post('/login');
 
 module.exports = router;
