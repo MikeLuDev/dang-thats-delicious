@@ -25,4 +25,4 @@ const userSchema = new Schema({
 userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
 userSchema.plugin(mongodbErrorHandller);
 
-module.exports = mongoose.modelNames('User', userSchema);
+module.exports = mongoose.model('User', userSchema);
